@@ -1,0 +1,550 @@
+definitions:
+  models.Error:
+    properties:
+      message:
+        type: string
+    type: object
+  models.StandardErrorModel:
+    properties:
+      error:
+        $ref: '#/definitions/models.Error'
+    type: object
+  student.CreateStudentReq:
+    properties:
+      address:
+        type: string
+      dateOfBirth:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      last_name:
+        type: string
+      major:
+        type: string
+      password:
+        type: string
+      phone_numbers:
+        items:
+          $ref: '#/definitions/student.Phone'
+        type: array
+      username:
+        type: string
+    type: object
+  student.CreateStudentRes:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      dateOfBirth:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      major:
+        type: string
+      phone_numbers:
+        items:
+          $ref: '#/definitions/student.Phone'
+        type: array
+      username:
+        type: string
+    type: object
+  student.GetStudentRes:
+    properties:
+      address:
+        type: string
+      created_at:
+        type: string
+      dateOfBirth:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      major:
+        type: string
+      phone_numbers:
+        items:
+          $ref: '#/definitions/student.Phone'
+        type: array
+      username:
+        type: string
+    type: object
+  student.ListStudentsReq:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+    type: object
+  student.ListStudentsRes:
+    properties:
+      count:
+        type: integer
+      students:
+        items:
+          $ref: '#/definitions/student.GetStudentRes'
+        type: array
+    type: object
+  student.Phone:
+    properties:
+      phone_number:
+        type: string
+    type: object
+  student.Success:
+    properties:
+      message:
+        type: string
+    type: object
+  student.UpdateStudentReq:
+    properties:
+      address:
+        type: string
+      dateOfBirth:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      major:
+        type: string
+      phone_numbers:
+        items:
+          $ref: '#/definitions/student.Phone'
+        type: array
+      username:
+        type: string
+    type: object
+  task.CreateTaskReq:
+    properties:
+      deadline:
+        type: string
+      student_id:
+        type: string
+      summary:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+    type: object
+  task.CreateTaskRes:
+    properties:
+      created_at:
+        type: string
+      deadline:
+        type: string
+      id:
+        type: string
+      status:
+        type: string
+      student_id:
+        type: string
+      summary:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+    type: object
+  task.GetTaskRes:
+    properties:
+      created_at:
+        type: string
+      deadline:
+        type: string
+      id:
+        type: string
+      status:
+        type: string
+      student_id:
+        type: string
+      summary:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+    type: object
+  task.ListTasksReq:
+    properties:
+      limit:
+        type: integer
+      page:
+        type: integer
+    type: object
+  task.ListTasksRes:
+    properties:
+      count:
+        type: integer
+      tasks:
+        items:
+          $ref: '#/definitions/task.GetTaskRes'
+        type: array
+    type: object
+  task.Success:
+    properties:
+      message:
+        type: string
+    type: object
+  task.UpdateTaskReq:
+    properties:
+      deadline:
+        type: string
+      id:
+        type: string
+      status:
+        type: string
+      student_id:
+        type: string
+      summary:
+        type: string
+      title:
+        type: string
+      type:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: This swagger is created to illustrate the body of microservice for
+    students
+  termsOfService: http://swagger.io/
+  title: Service for students
+  version: "1.0"
+paths:
+  /student:
+    post:
+      consumes:
+      - application/json
+      description: This is for creating a student
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/student.CreateStudentReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/student.CreateStudentRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: Create Student
+      tags:
+      - Student
+    put:
+      consumes:
+      - application/json
+      description: This is for updating a student by his/her ID
+      parameters:
+      - description: Body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/student.UpdateStudentReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/student.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: Update Student
+      tags:
+      - Student
+  /student/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This is for deleting a student by his/her ID
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/student.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: Delete Student
+      tags:
+      - Student
+    get:
+      consumes:
+      - application/json
+      description: This is for getting a student by his/her ID
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/student.GetStudentRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: Get Student
+      tags:
+      - Student
+  /students:
+    post:
+      consumes:
+      - application/json
+      description: This is for getting a list of students
+      parameters:
+      - description: Limit and page
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/student.ListStudentsReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/student.ListStudentsRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: List Students
+      tags:
+      - Students
+  /task:
+    post:
+      consumes:
+      - application/json
+      description: This is for creating a task
+      parameters:
+      - description: Body request
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/task.CreateTaskReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/task.CreateTaskRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: Create Task
+      tags:
+      - Task
+    put:
+      consumes:
+      - application/json
+      description: This is for updating a task by its ID
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/task.UpdateTaskReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: Update Task
+      tags:
+      - Task
+  /task/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: This is for deleting a task by its ID
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task.Success'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: Delete Student
+      tags:
+      - Task
+    get:
+      consumes:
+      - application/json
+      description: This is for getting a task by its ID
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task.GetTaskRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: Get Task
+      tags:
+      - Task
+  /tasks:
+    get:
+      description: This is for getting a list of tasks which were not completed in
+        time
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task.ListTasksRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: List Overdue Tasks
+      tags:
+      - Tasks
+    post:
+      consumes:
+      - application/json
+      description: This is for getting a list of tasks
+      parameters:
+      - description: Limit and page
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/task.ListTasksReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/task.ListTasksRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.StandardErrorModel'
+      summary: List Tasks
+      tags:
+      - Tasks
+swagger: "2.0"
